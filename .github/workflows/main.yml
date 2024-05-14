@@ -24,7 +24,7 @@ jobs:
         id: extract-binaries
         shell: bash
         run: |
-          echo "PLATFORMS=${{ env.PLATFORMS }}" | sed 's/[]'"[]//g'
+          PLATFORMS=$(echo "${{ env.PLATFORMS }}" | sed 's/[]'"[]//g')
           echo "PLTF=($PLATFORMS)"
           echo "PLTF=${{ env.PLATFORMS }}" | tee -a "${GITHUB_OUTPUT}"
 
