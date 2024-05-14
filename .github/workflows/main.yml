@@ -33,7 +33,7 @@ jobs:
     needs: docker-build
     strategy:
       matrix:
-        platforms: ${{ needs.docker-build.outputs.platforms }}
+        platforms: ${{ fromJSON(needs.docker-build.outputs.platforms) }}
 
     steps:
       - name: Test
