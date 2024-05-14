@@ -24,8 +24,8 @@ jobs:
         id: extract-binaries
         shell: bash
         run: |
-          echo "${{ env.PLATFORMS }}"
-          echo "${{ join(fromJSON(env.PLATFORMS)) }}"
+          echo "PLATFORMS=${{ env.PLATFORMS }}" | sed 's/[]'"[]//g'
+          echo "PLTF=($PLATFORMS)"
           echo "PLTF=${{ env.PLATFORMS }}" | tee -a "${GITHUB_OUTPUT}"
 
   upload-binaries:
