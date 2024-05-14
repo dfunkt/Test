@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+    tags:
+      - '*'
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-22.04
+
+    env:
+      PLATFORMS: "amd64, arm64, armv7, armv6"
+
+    outputs:
+      platforms: ${{ steps.extract-binaries.outputs.PLTF }}
+
+    steps:
+      - name: Extract binaries
+        id: extract-binaries
+        shell: bash
+        run: |
+          echo "${{ env.PLATFORMS }}"
+          echo "PLTF=${{ env.PLATFORMS }}" | tee -a "${GITHUB_OUTPUT}"
+
+  upload-binaries:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    needs: docker-build
+    strategy:
+      matrix:
+        platforms: ["${{ needs.docker-build.outputs.platforms }}"]
+
+    steps:
+      - name: Test
+        run: |
+          echo "${{ matrix.platforms }}"
