@@ -25,6 +25,7 @@ jobs:
         shell: bash
         run: |
           echo "${{ env.PLATFORMS }}"
+          echo "${{ fromJSON(env.PLATFORMS) }}"
           echo "PLTF=${{ env.PLATFORMS }}" | tee -a "${GITHUB_OUTPUT}"
 
   upload-binaries:
