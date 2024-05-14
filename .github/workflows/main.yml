@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     env:
-      PLATFORMS: "[amd64, arm64, armv7, armv6]"
+      PLATFORMS: '[amd64, arm64, armv7, armv6]'
 
     outputs:
       platforms: ${{ steps.extract-binaries.outputs.PLTF }}
@@ -33,7 +33,7 @@ jobs:
     needs: docker-build
     strategy:
       matrix:
-        platforms: '${{ needs.docker-build.outputs.platforms }}'
+        platforms: ${{ needs.docker-build.outputs.platforms }}
 
     steps:
       - name: Test
