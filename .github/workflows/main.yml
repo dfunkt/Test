@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           echo "${{ env.PLATFORMS }}"
-          ${{ fromJSON(env.PLATFORMS) }}
+          echo "${{ join(fromJSON(env.PLATFORMS)) }}"
           echo "PLTF=${{ env.PLATFORMS }}" | tee -a "${GITHUB_OUTPUT}"
 
   upload-binaries:
