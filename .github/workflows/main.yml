@@ -9,15 +9,15 @@ on:
     tags:
       - '*'
 
+env:
+      PLATFORMS: "['amd64', 'arm64', 'armv7', 'armv6']"
+
 jobs:
   docker-build:
     runs-on: ubuntu-22.04
 
-    env:
-      PLATFORMS: "['amd64', 'arm64', 'armv7', 'armv6']"
-
-    outputs:
-      platforms: ${{ steps.extract-binaries.outputs.PLTF }}
+#    outputs:
+#      platforms: ${{ steps.extract-binaries.outputs.PLTF }}
 
     steps:
       - name: Extract binaries
@@ -26,7 +26,7 @@ jobs:
         run: |
           PLATFORMS=$(echo "${{ env.PLATFORMS }}" | sed 's/[]'"[]//g')
           echo "PLTF=($PLATFORMS)"
-          echo "PLTF=${{ env.PLATFORMS }}" | tee -a "${GITHUB_OUTPUT}"
+      #    echo "PLTF=${{ env.PLATFORMS }}" | tee -a "${GITHUB_OUTPUT}"
 
   upload-binaries:
     runs-on: ubuntu-22.04
@@ -34,7 +34,7 @@ jobs:
     needs: docker-build
     strategy:
       matrix:
-        platforms: ${{ fromJSON(needs.docker-build.outputs.platforms) }}
+        platforms: ${{ fromJSON(env.PLATFORMS) }}
 
     steps:
       - name: Test
